@@ -1,0 +1,42 @@
+import java.util.Date;
+
+public class Measurement {
+	
+	private int pulse;
+	private int systolic;
+	private int diastolic;
+	private Date theTime;
+	public  Measurement(int pulse, int diastolic, int systolic, Date theTime)
+	{
+		this.pulse = pulse;
+		this.systolic = systolic;
+		this.diastolic = diastolic;
+		this.theTime = theTime;
+	}
+	public int MgetPulseG()
+	{
+		return pulse;
+	}
+	public int MgetsystolicG()
+	{
+		return systolic;
+	}
+	public int MgetdiastolicG()
+	{
+		return diastolic;
+	}
+	public Date MgetTheTimeG()
+	{
+		return theTime;
+	}
+	public void printValues()
+	{
+		System.out.println("Pulse : " + pulse);
+		System.out.println("Systolic blood pressure : " + systolic);
+		System.out.println("Diastolic blood pressure : " + diastolic);
+		System.out.println("Date : " + theTime);
+		System.out.println("");
+	}
+
+
+}

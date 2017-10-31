@@ -1,0 +1,54 @@
+/**
+ * Filename : Measurement.java
+ * Beschreibung : Klasse, die die Daten einer Messung (Puls, systolischer Blutdruck, diastolischer Blutdruck, Zeitpunkt)
+ *  zusammenfasst
+ * Author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * 
+*/
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Measurement {
+	
+	private int pulse;
+	private int systolic;
+	private int diastolic;
+	private Date theTime;
+	public  Measurement(int pulse, int diastolic, int systolic, Date theTime)
+	{
+		this.pulse = pulse;
+		this.systolic = systolic;
+		this.diastolic = diastolic;
+		this.theTime = theTime;
+	}
+	public int MgetPulseG()
+	{
+		return pulse;
+	}
+	public int MgetsystolicG()
+	{
+		return systolic;
+	}
+	public int MgetdiastolicG()
+	{
+		return diastolic;
+	}
+	public Date MgetTheTimeG()
+	{
+		return theTime;
+	}
+	public void printValues()
+	{
+		System.out.println("Pulse : " + pulse);
+		System.out.println("Systolic blood pressure : " + systolic);
+		System.out.println("Diastolic blood pressure : " + diastolic);
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		System.out.println("Date : " + dateFormat.format(theTime));
+		System.out.println("");
+	}
+
+
+}

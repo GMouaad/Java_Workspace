@@ -1,0 +1,44 @@
+/*
+ * Filename : GenericTest.java
+ * Beschreibung :
+ * Author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * 
+*/
+
+
+import java.util.Date;
+
+public class GenericTest {
+	
+	private String name;
+	private Date date;
+	//creat a Constractor
+	public GenericTest(String name)
+	{
+		this.name = name;
+	}
+	//set value of name 
+	//string name { get; set; }
+	public void MsetNameG(String newName)
+	{
+		name = newName;
+	}
+	//get value of name
+	public String getName()
+	{
+		return (name);
+	}
+
+	public Date getTime()
+	{
+		return date;
+	}
+	public void print()
+	{
+		
+		System.out.println("Name :\n" + name);
+	}
+
+
+}

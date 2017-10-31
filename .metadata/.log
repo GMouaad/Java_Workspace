@@ -1,0 +1,12 @@
+!SESSION 2017-10-30 15:57:27.636 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_73
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/MouaadGssair/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/MouaadGssair/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 2 0 2017-10-30 16:04:10.095
+!MESSAGE Error parsing metadata repository
+!SUBENTRY 1 org.eclipse.equinox.p2.core 2 0 2017-10-30 16:04:10.095
+!MESSAGE Error in file:/Applications/Eclipse.app/Contents/Eclipse/p2/org.eclipse.equinox.p2.repository/cache/content-1560426045.jar at line 57327, column 62: Missing required attribute in "property": value

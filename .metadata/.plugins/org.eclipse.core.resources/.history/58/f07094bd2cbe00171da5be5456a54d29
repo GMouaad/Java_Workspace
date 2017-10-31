@@ -1,0 +1,55 @@
+/**
+ * Filename : GenericTest.java
+ * Beschreibung :
+ * Author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * 
+*/
+
+//Note
+/*Zur Erzeugung von Date
+ * GregorianCalendar theCalTime = new GregorianCalendar(1976,2,12);
+ * Date theDate = new Date(theCalTime.getTimeInMillis());
+ */
+/*
+ * Zur Formatierung
+ * SimpleDateFormat theFormatter = new SimpleDateFormat("dd.MM.yyyy");
+ * String theString = theFormatter.format(theDate);
+ * System.out.println(theString);
+ */
+
+import java.util.Date;
+
+public class GenericTest {
+	
+	private String name;
+	private Date date;
+	//creat a Constractor
+	public GenericTest(String name)
+	{
+		this.name = name;
+	}
+	//set value of name 
+	//string name { get; set; }
+	public void MsetNameG(String newName)
+	{
+		name = newName;
+	}
+	//get value of name
+	public String getName()
+	{
+		return (name);
+	}
+
+	public Date getTime()
+	{
+		return date;
+	}
+	public void print()
+	{
+		
+		System.out.println("Name :\n" + name);
+	}
+
+
+}
