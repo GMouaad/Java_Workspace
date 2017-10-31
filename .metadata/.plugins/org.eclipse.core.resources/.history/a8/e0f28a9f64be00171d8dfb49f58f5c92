@@ -1,12 +1,5 @@
-/**
- * Filename : MainContent.java
- * Description : GUI class, Main Frame , Main function.
- * Author : Mouaad Gssair
- * Imm.Nummer : 294618
- * 
-*/
-
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;

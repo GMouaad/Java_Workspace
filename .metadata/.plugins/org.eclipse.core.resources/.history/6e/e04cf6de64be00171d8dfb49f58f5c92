@@ -15,14 +15,13 @@ import javax.swing.JComboBox;
 
 public class MainContent extends JPanel {
 
-	private static int counter=0;
-	private static GenericTest[] genericTestArray =  new GenericTest[10];
-	private static GenericTest actualTest;
+	private static int CTestCountS=0;
+	private static CGenericTestS[] CGenericTestArrayS =  new CGenericTestS[10];
+	private static CGenericTestS CactualTestS;
 	/**
 	 * Create the panel.
 	 */
-	public MainContent() 
-	{
+	public MainContent() {
 		setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -82,8 +81,5 @@ public class MainContent extends JPanel {
 		btnExit.setBounds(6, 298, 117, 29);
 		add(btnExit);
 
-	}
-	public GenericTest getactualTest(){
-		return actualTest;
 	}
 }

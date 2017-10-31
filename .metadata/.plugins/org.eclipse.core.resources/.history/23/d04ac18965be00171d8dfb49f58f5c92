@@ -21,8 +21,7 @@ public class MainContent extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public MainContent() 
-	{
+	public MainContent() {
 		setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -82,8 +81,5 @@ public class MainContent extends JPanel {
 		btnExit.setBounds(6, 298, 117, 29);
 		add(btnExit);
 
-	}
-	public GenericTest getactualTest(){
-		return actualTest;
 	}
 }

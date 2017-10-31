@@ -1,6 +1,6 @@
 /**
  * Filename : Measurement.java
- * Description : Klasse, die die Daten einer Messung (Puls, systolischer Blutdruck, diastolischer Blutdruck, Zeitpunkt)
+ * Beschreibung : Klasse, die die Daten einer Messung (Puls, systolischer Blutdruck, diastolischer Blutdruck, Zeitpunkt)
  *  zusammenfasst
  * Author : Mouaad Gssair
  * Imm.Nummer : 294618

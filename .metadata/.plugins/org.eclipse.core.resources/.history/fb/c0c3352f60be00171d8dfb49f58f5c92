@@ -1,0 +1,12 @@
+import javax.swing.JPanel;
+
+public class MainContent extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public MainContent() {
+
+	}
+
+}
