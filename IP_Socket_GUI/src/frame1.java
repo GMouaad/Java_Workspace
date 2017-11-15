@@ -1,7 +1,17 @@
+/**
+ * Project : IP_Socket_GUI
+ * Filename : frame1.java
+ * Description :
+ * Author : Mouaad Gssair
+ * Date : Oct  2017
+ * Modified : Nov 15, 2017
+*/
+
 import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -27,19 +37,40 @@ import javax.swing.JLabel;
 import java.awt.Panel;
 import javax.swing.JToggleButton;
 import javax.swing.JCheckBox;
+import java.awt.Component;
+import java.awt.Color;
+import javax.swing.JTextArea;
 
 public class frame1 {
 
 	private JFrame frame;
+	
+	// Connect status constants
+	   final static int DISCONNECTED = 0;
+	   final static int BEGIN_CONNECT = 1;
+	   final static int CONNECTED = 2;
+	   
+	// Connection info
+	   public static String hostIP = "localhost";
+	   public static int port = 1234;
+	   public static int connectionStatus = DISCONNECTED;
+	   public static boolean isHost = true;
 
+	// TCP Components
 	private static ServerSocket mServerSocket;
 	private static Socket mSocket;
 	private static BufferedReader mBufferedReader;
 	private static InputStreamReader mInputStream;
+	public static PrintWriter out = null;
 	private static String message="";
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	
+	// GUI Components
+	private JTextField hostIP_textField;
+	private JTextField port_textField;
+	private JTextField ouputTextField;
+	private JButton btnDisconnect;
+	private JButton btnConnect;
+	private JLabel lblStatus;
 	
 	/**
 	 * Launch the application.
@@ -85,71 +116,75 @@ public class frame1 {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize() 
+	{
 		frame = new JFrame();
 		frame.getContentPane().setFont(new Font("Liberation Serif", Font.PLAIN, 14));
 		frame.setBounds(100, 100, 650, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		TextField textField = new TextField();
-		textField.setBounds(328, 358, 224, 22);
-		frame.getContentPane().add(textField);
+		hostIP_textField = new JTextField();
+		hostIP_textField.setBounds(98, 13, 110, 22);
+		frame.getContentPane().add(hostIP_textField);
+		hostIP_textField.setColumns(10);
 		
-		Button button = new Button("Send");
-		button.setFont(new Font("Liberation Serif", Font.PLAIN, 12));
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		port_textField = new JTextField();
+		port_textField.setColumns(10);
+		port_textField.setBounds(98, 41, 110, 22);
+		frame.getContentPane().add(port_textField);
+		
+		btnConnect = new JButton("Connect");
+		btnConnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				connectionStatus = BEGIN_CONNECT;
+				hostIP_textField.setEnabled(false);
+				port_textField.setEnabled(false);
+				ouputTextField.setEnabled(true);
+				btnDisconnect.setEnabled(true);
+				lblStatus.setText("Online");
+				lblStatus.setForeground(Color.GREEN);
+				btnConnect.setEnabled(false);
+				
 			}
 		});
-		button.setBounds(554, 358, 70, 22);
-		frame.getContentPane().add(button);
-		
-		Label label = new Label("Host IP :");
-		label.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
-		label.setBounds(32, 13, 60, 22);
-		frame.getContentPane().add(label);
-		
-		Label label_1 = new Label("Port :");
-		label_1.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
-		label_1.setBounds(32, 41, 60, 22);
-		frame.getContentPane().add(label_1);
-		
-		textField_1 = new JTextField();
-		textField_1.setBounds(98, 13, 110, 22);
-		frame.getContentPane().add(textField_1);
-		textField_1.setColumns(10);
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		textField_2.setBounds(98, 41, 110, 22);
-		frame.getContentPane().add(textField_2);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(328, 154, 296, 198);
-		frame.getContentPane().add(textField_3);
-		textField_3.setColumns(10);
-		
-		JButton btnConnect = new JButton("Connect");
 		btnConnect.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
 		btnConnect.setBounds(411, 13, 100, 23);
 		frame.getContentPane().add(btnConnect);
 		
-		JButton btnDisconnect = new JButton("Disconnect");
+		btnDisconnect = new JButton("Disconnect");
+		btnDisconnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				connectionStatus = DISCONNECTED;
+				hostIP_textField.setEnabled(true);
+				port_textField.setEnabled(true);
+				ouputTextField.setText("");ouputTextField.setEnabled(false);
+				btnConnect.setEnabled(true);
+				lblStatus.setText("Offline");
+				lblStatus.setForeground(Color.RED);
+			}
+		});
+		btnDisconnect.setEnabled(false);
 		btnDisconnect.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
 		btnDisconnect.setBounds(411, 41, 100, 23);
 		frame.getContentPane().add(btnDisconnect);
 		
 		JButton btnChangeHost = new JButton("Change Host");
-		btnChangeHost.setBounds(218, 13, 100, 23);
+		btnChangeHost.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				hostIP =  hostIP_textField.getText();
+			}
+		});
+		btnChangeHost.setBounds(218, 13, 110, 23);
 		frame.getContentPane().add(btnChangeHost);
 		
 		JButton btnChangePort = new JButton("Change Port");
 		btnChangePort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				port = Integer.parseInt(port_textField.getText());
 			}
 		});
-		btnChangePort.setBounds(218, 41, 100, 23);
+		btnChangePort.setBounds(218, 41, 110, 23);
 		frame.getContentPane().add(btnChangePort);
 		
 		Panel panel = new Panel();
@@ -157,65 +192,90 @@ public class frame1 {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		Label label_2 = new Label("Sensors State  ");
-		label_2.setAlignment(Label.CENTER);
-		label_2.setBounds(88, 10, 115, 24);
-		panel.add(label_2);
-		label_2.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
+		JCheckBox checkBox_S1 = new JCheckBox("On");
+		checkBox_S1.setSelected(true);
+		checkBox_S1.setBounds(165, 60, 60, 24);
+		panel.add(checkBox_S1);
 		
-		Label label_3 = new Label("Sensors 1 : ");
-		label_3.setAlignment(Label.CENTER);
-		label_3.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
-		label_3.setBounds(10, 60, 115, 24);
-		panel.add(label_3);
+		JCheckBox checkBox_S2 = new JCheckBox("On");
+		checkBox_S2.setSelected(true);
+		checkBox_S2.setBounds(165, 90, 60, 24);
+		panel.add(checkBox_S2);
 		
-		Label label_4 = new Label("Sensors 2 : ");
-		label_4.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
-		label_4.setAlignment(Label.CENTER);
-		label_4.setBounds(10, 90, 115, 24);
-		panel.add(label_4);
+		JCheckBox checkBox_S3 = new JCheckBox("On");
+		checkBox_S3.setSelected(true);
+		checkBox_S3.setBounds(165, 120, 60, 24);
+		panel.add(checkBox_S3);
 		
-		Label label_5 = new Label("Sensors 3 : ");
-		label_5.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
-		label_5.setAlignment(Label.CENTER);
-		label_5.setBounds(10, 120, 115, 24);
-		panel.add(label_5);
-		
-		Label label_6 = new Label("Sensors 4 : ");
-		label_6.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
-		label_6.setAlignment(Label.CENTER);
-		label_6.setBounds(10, 150, 115, 24);
-		panel.add(label_6);
-		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("On");
-		chckbxNewCheckBox.setSelected(true);
-		chckbxNewCheckBox.setBounds(165, 60, 60, 24);
-		panel.add(chckbxNewCheckBox);
-		
-		JCheckBox checkBox = new JCheckBox("On");
-		checkBox.setSelected(true);
-		checkBox.setBounds(165, 90, 60, 24);
-		panel.add(checkBox);
-		
-		JCheckBox checkBox_1 = new JCheckBox("On");
-		checkBox_1.setSelected(true);
-		checkBox_1.setBounds(165, 120, 60, 24);
-		panel.add(checkBox_1);
-		
-		JCheckBox checkBox_2 = new JCheckBox("On");
-		checkBox_2.setSelected(true);
-		checkBox_2.setBounds(165, 150, 60, 24);
-		panel.add(checkBox_2);
+		JCheckBox checkBox_S4 = new JCheckBox("On");
+		checkBox_S4.setSelected(true);
+		checkBox_S4.setBounds(165, 150, 60, 24);
+		panel.add(checkBox_S4);
 		
 		JButton btnRefresh = new JButton("Refresh");
 		btnRefresh.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
 		btnRefresh.setBounds(108, 192, 89, 23);
 		panel.add(btnRefresh);
 		
+		JLabel lblSensor = new JLabel("Sensor 1 :");
+		lblSensor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSensor.setBounds(6, 64, 100, 16);
+		panel.add(lblSensor);
+		
+		JLabel lblSensor_1 = new JLabel("Sensor 2 :");
+		lblSensor_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSensor_1.setBounds(6, 94, 100, 16);
+		panel.add(lblSensor_1);
+		
+		JLabel lblSensor_2 = new JLabel("Sensor 3 :");
+		lblSensor_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSensor_2.setBounds(6, 124, 100, 16);
+		panel.add(lblSensor_2);
+		
+		JLabel lblSensor_3 = new JLabel("Sensor 4 :");
+		lblSensor_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSensor_3.setBounds(6, 154, 100, 16);
+		panel.add(lblSensor_3);
+		
+		JLabel lblSensorState = new JLabel("Sensor State");
+		lblSensorState.setFont(new Font("Apple SD Gothic Neo", Font.BOLD, 14));
+		lblSensorState.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSensorState.setBounds(97, 6, 100, 16);
+		panel.add(lblSensorState);
+		
 		JSeparator separator = new JSeparator();
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setBounds(317, 154, 5, 225);
 		frame.getContentPane().add(separator);
+		
+		ouputTextField = new JTextField();
+		ouputTextField.setEnabled(false);
+		ouputTextField.setBounds(328, 352, 197, 26);
+		frame.getContentPane().add(ouputTextField);
+		ouputTextField.setColumns(10);
+		
+		JButton btnSend = new JButton("Send");
+		btnSend.setBounds(524, 351, 100, 29);
+		frame.getContentPane().add(btnSend);
+		
+		JLabel lblHostIp = new JLabel("Host IP :");
+		lblHostIp.setBounds(25, 16, 61, 16);
+		frame.getContentPane().add(lblHostIp);
+		
+		JLabel lblPort = new JLabel("Port :");
+		lblPort.setBounds(25, 44, 61, 16);
+		frame.getContentPane().add(lblPort);
+		
+		lblStatus = new JLabel("Offline");
+		lblStatus.setForeground(Color.RED);
+		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		lblStatus.setFont(new Font("Apple SD Gothic Neo", Font.BOLD, 14));
+		lblStatus.setBounds(524, 65, 100, 16);
+		frame.getContentPane().add(lblStatus);
+		
+		JTextArea input_textArea = new JTextArea();
+		input_textArea.setBounds(334, 154, 296, 191);
+		frame.getContentPane().add(input_textArea);
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
