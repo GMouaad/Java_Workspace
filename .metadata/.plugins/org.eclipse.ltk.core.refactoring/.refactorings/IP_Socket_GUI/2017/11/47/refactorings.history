@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename field &apos;ouputTextField&apos; in &apos;TCPchat&apos; to &apos;outputTextField&apos;&#x0A;- Original project: &apos;IP_Socket_GUI&apos;&#x0A;- Original element: &apos;TCPchat.ouputTextField&apos;&#x0A;- Renamed element: &apos;TCPchat.outputTextField&apos;&#x0A;- Update references to refactored element&#x0A;- Update textual occurrences in comments and strings" delegate="false" deprecate="false" description="Rename field &apos;ouputTextField&apos;" flags="589826" getter="false" id="org.eclipse.jdt.ui.rename.field" input="/src&lt;{TCPchat.java[TCPchat^ouputTextField" name="outputTextField" references="true" setter="false" stamp="1511200384551" textual="false" version="1.0"/>
+</session>
