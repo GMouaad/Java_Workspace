@@ -9,6 +9,19 @@
 		<item value="600" key="width"/>
 		<item value="400" key="height"/>
 	</section>
+	<section name="FatJarPackageWizard">
+		<item value="/Users/MouaadGssair/Desktop/_Studium/SelbstLM Java/Java_Workspace" key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION"/>
+		<item value="TCPchat - IP_Socket_GUI" key="FatJarPackageWizardPage.LAUNCH_CONFIGURATION_SELECTION_NAME"/>
+		<item value="/Users/MouaadGssair/Desktop/_Studium/SelbstLM Java/Java_Workspace/TCP Client.jar" key="FatJarPackageWizardPage.DESTINATION_PATH_SELECTION"/>
+		<item value="false" key="FatJarPackageWizardPage.ANTSCRIPT_SAVE"/>
+		<item value="1" key="FatJarPackageWizardPage.LIBRARY_HANDLING"/>
+		<list key="FatJarPackageWizardPage.DESTINATION_NAMES_ID">
+			<item value="/Users/MouaadGssair/Desktop/_Studium/SelbstLM Java/Java_Workspace/TCP Client.jar"/>
+		</list>
+		<list key="FatJarPackageWizardPage.ANTSCRIPT_LOCATION_HISTORY">
+			<item value=".xml"/>
+		</list>
+	</section>
 	<section name="org.eclipse.jdt.internal.ui.packageview.PackageExplorerPart">
 		<item value="2" key="layout"/>
 		<item value="true" key="group_libraries"/>

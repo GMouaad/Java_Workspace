@@ -12,6 +12,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainContent extends JPanel {
 
@@ -36,6 +38,11 @@ public class MainContent extends JPanel {
 		mnFile.add(mntmSave);
 		
 		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		mnFile.add(mntmExit);
 		
 		JMenu mnTest = new JMenu("Test");
@@ -79,6 +86,11 @@ public class MainContent extends JPanel {
 		add(comboBox);
 		
 		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		btnExit.setBounds(6, 298, 117, 29);
 		add(btnExit);
 

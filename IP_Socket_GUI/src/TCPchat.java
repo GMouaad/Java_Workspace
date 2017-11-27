@@ -7,7 +7,6 @@
  * Modified : Nov 15, 2017
 */
 
-import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -97,6 +96,7 @@ public class TCPchat implements Runnable {
 	
 	/**
 	 * Launch the application.
+	 * @wbp.parser.entryPoint
 	 * 
 	 */
 	public static void main(String[] args) throws IOException 

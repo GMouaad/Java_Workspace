@@ -1,0 +1,528 @@
+/**
+ * Project : IP_Socket_GUI
+ * Filename : frame1.java
+ * Description :
+ * Author : Mouaad Gssair
+ * Date : Oct  2017
+ * Modified : Nov 15, 2017
+*/
+
+import java.awt.EventQueue;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import java.awt.TextArea;
+import java.awt.TextField;
+import java.awt.Button;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ActionEvent;
+import java.awt.Label;
+import java.awt.Font;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import java.awt.List;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.JList;
+import javax.swing.JLabel;
+import java.awt.Panel;
+import javax.swing.JToggleButton;
+import javax.swing.JCheckBox;
+import java.awt.Component;
+import java.awt.Color;
+import javax.swing.JTextArea;
+
+public class TCPchat implements Runnable {
+
+	
+	
+	// Connect status constants
+	   public final static int NULL = 0;
+	   public final static int DISCONNECTED = 1;
+	   public final static int DISCONNECTING = 2;
+	   public final static int BEGIN_CONNECT = 3;
+	   public final static int CONNECTED = 4;
+	   
+	   // Other constants
+	   public final static String statusMessages[] = {
+	      " Error! Could not connect!", " Disconnected",
+	      " Disconnecting...", " Connecting...", " Connected"
+	   };
+	   public final static TCPchat tcpObj = new TCPchat();
+	   public final static String END_CHAT_SESSION =
+	      new Character((char)0).toString(); // Indicates the end of a session
+
+
+	   
+	   
+	// Connection info
+	   public static String hostIP = "localhost";
+	   public static int port = 1234;
+	   public static int connectionStatus = DISCONNECTED;
+	   public static boolean isHost = true;
+	   public static String statusString = statusMessages[connectionStatus];
+	   public static StringBuffer toAppend = new StringBuffer("");
+	   public static StringBuffer toSend = new StringBuffer("");
+	   
+	   
+
+	// TCP Components
+	private static ServerSocket mServerSocket;
+	private static Socket mSocket;
+	private static BufferedReader mBufferedReader;
+	private static InputStreamReader mInputStream;
+	public static PrintWriter out = null;
+	private static String message="";
+	
+	// GUI Components
+	private JFrame frame;
+	private JTextField hostIP_textField;
+	private JTextField port_textField;
+	private JTextField outputTextField;
+	private JTextArea input_textArea;
+	private JButton btnDisconnect;
+	private JButton btnConnect;
+	private JLabel lblStatus;
+	
+	/**
+	 * Launch the application.
+	 * @wbp.parser.entryPoint
+	 * 
+	 */
+	public static void main(String[] args) throws IOException 
+	{
+		String s;
+		while (true) {
+	         try { // Poll every ~10 ms
+	            Thread.sleep(10);
+	         }
+	         catch (InterruptedException e) {}
+
+	         switch (connectionStatus) 
+	         {
+	         case BEGIN_CONNECT:
+	            try {
+	            	
+	                  mSocket = new Socket(hostIP, port);
+	               
+
+	                  mBufferedReader = new BufferedReader(new 
+	                  InputStreamReader(mSocket.getInputStream()));
+	               out = new PrintWriter(mSocket.getOutputStream(), true);
+	               changeStatusNTS(CONNECTED, true);
+	            }
+	            // If error, clean up and output an error message
+	            catch (IOException e) {
+	               cleanUp();
+	               changeStatusNTS(DISCONNECTED, false);
+	            }
+	            break;
+
+	         case CONNECTED:
+	            try {
+	               // Send data
+	               if (toSend.length() != 0) {
+	                  out.print(toSend); out.flush();
+	                  toSend.setLength(0);
+	                  changeStatusNTS(NULL, true);
+	               }
+
+	               // Receive data
+	               if (mBufferedReader.ready()) {
+	                  s = mBufferedReader.readLine();
+	                  if ((s != null) &&  (s.length() != 0)) {
+	                     // Check if it is the end of a trasmission
+	                     if (s.equals(END_CHAT_SESSION)) {
+	                        changeStatusNTS(DISCONNECTING, true);
+	                     }
+
+	                     // Otherwise, receive what text
+	                     else {
+	                        appendToChatBox("INCOMING: " + s + "\n");
+	                        changeStatusNTS(NULL, true);
+	                     }
+	                  }
+	               }
+	            }
+	            catch (IOException e) {
+	               cleanUp();
+	               changeStatusNTS(DISCONNECTED, false);
+	            }
+	            break;
+
+	         case DISCONNECTING:
+	            // Tell other chatter to disconnect as well
+	            out.print(END_CHAT_SESSION); out.flush();
+
+	            // Clean up (close all streams/sockets)
+	            cleanUp();
+	            changeStatusNTS(DISCONNECTED, true);
+	            break;
+
+	         default: break; // do nothing
+	         }
+	      }
+	}
+/////////////////////////////////////////////////////////////////
+
+/**
+ *  Cleanup for disconnect
+ */
+	private static void cleanUp() {
+		try {
+			if (mServerSocket != null) {
+				mServerSocket.close();
+				mServerSocket = null;
+			}
+		}
+		catch (IOException e) { mServerSocket = null; }
+
+		try {
+			if (mSocket != null) {
+				mSocket.close();
+				mSocket = null;
+			}
+		}
+		catch (IOException e) { mSocket = null; }
+
+		try {
+			if (mInputStream != null) {
+				mInputStream.close();
+				mInputStream = null;
+			}
+		}
+		catch (IOException e) { mInputStream = null; }
+
+		if (out != null) {
+			out.close();
+			out = null;
+		}
+	}
+	/**
+	 * Create the application.
+	 */
+	public TCPchat() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() 
+	{
+		frame = new JFrame("TCP Chat");
+		frame.getContentPane().setFont(new Font("Liberation Serif", Font.PLAIN, 14));
+		frame.setBounds(100, 100, 650, 450);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		frame.setVisible(true);
+		
+		hostIP_textField = new JTextField();
+		hostIP_textField.setBounds(98, 13, 110, 22);
+		frame.getContentPane().add(hostIP_textField);
+		hostIP_textField.setColumns(10);
+		
+		port_textField = new JTextField();
+		port_textField.setColumns(10);
+		port_textField.setBounds(98, 41, 110, 22);
+		frame.getContentPane().add(port_textField);
+		port_textField.setText((new Integer(port)).toString());
+		port_textField.addFocusListener(new FocusAdapter() {
+	            public void focusLost(FocusEvent e) {
+	               // should be editable only when disconnected
+	               if (connectionStatus != DISCONNECTED) {
+	                  changeStatusNTS(NULL, true);
+	               }
+	               else {
+	                  int temp;
+	                  try {
+	                     temp = Integer.parseInt(port_textField.getText());
+	                     port = temp;
+	                  }
+	                  catch (NumberFormatException nfe) {
+	                	  port_textField.setText((new Integer(port)).toString());
+	                     frame.repaint();
+	                  }
+	               }
+	            }
+	         });
+		
+		btnConnect = new JButton("Connect");
+		btnConnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				connectionStatus = BEGIN_CONNECT;
+				hostIP_textField.setEnabled(false);
+				port_textField.setEnabled(false);
+				outputTextField.setEnabled(true);
+				btnDisconnect.setEnabled(true);
+				lblStatus.setText("Online");
+				lblStatus.setForeground(Color.GREEN);
+				btnConnect.setEnabled(false);
+				
+			}
+		});
+		btnConnect.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
+		btnConnect.setBounds(411, 13, 100, 23);
+		frame.getContentPane().add(btnConnect);
+		
+		btnDisconnect = new JButton("Disconnect");
+		btnDisconnect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				connectionStatus = DISCONNECTED;
+				hostIP_textField.setEnabled(true);
+				port_textField.setEnabled(true);
+				outputTextField.setText("");outputTextField.setEnabled(false);
+				btnConnect.setEnabled(true);
+				lblStatus.setText("Offline");
+				lblStatus.setForeground(Color.RED);
+			}
+		});
+		btnDisconnect.setEnabled(false);
+		btnDisconnect.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
+		btnDisconnect.setBounds(411, 41, 100, 23);
+		frame.getContentPane().add(btnDisconnect);
+		
+		JButton btnChangeHost = new JButton("Change Host");
+		btnChangeHost.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				hostIP =  hostIP_textField.getText();
+			}
+		});
+		btnChangeHost.setBounds(218, 13, 110, 23);
+		frame.getContentPane().add(btnChangeHost);
+		
+		JButton btnChangePort = new JButton("Change Port");
+		btnChangePort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				port = Integer.parseInt(port_textField.getText());
+			}
+		});
+		btnChangePort.setBounds(218, 41, 110, 23);
+		frame.getContentPane().add(btnChangePort);
+		
+		Panel panel = new Panel();
+		panel.setBounds(10, 154, 296, 226);
+		frame.getContentPane().add(panel);
+		panel.setLayout(null);
+		
+		JCheckBox checkBox_S1 = new JCheckBox("On");
+		checkBox_S1.setSelected(true);
+		checkBox_S1.setBounds(165, 60, 60, 24);
+		panel.add(checkBox_S1);
+		
+		JCheckBox checkBox_S2 = new JCheckBox("On");
+		checkBox_S2.setSelected(true);
+		checkBox_S2.setBounds(165, 90, 60, 24);
+		panel.add(checkBox_S2);
+		
+		JCheckBox checkBox_S3 = new JCheckBox("On");
+		checkBox_S3.setSelected(true);
+		checkBox_S3.setBounds(165, 120, 60, 24);
+		panel.add(checkBox_S3);
+		
+		JCheckBox checkBox_S4 = new JCheckBox("On");
+		checkBox_S4.setSelected(true);
+		checkBox_S4.setBounds(165, 150, 60, 24);
+		panel.add(checkBox_S4);
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.setFont(new Font("Liberation Serif", Font.PLAIN, 14));
+		btnRefresh.setBounds(108, 192, 89, 23);
+		panel.add(btnRefresh);
+		
+		JLabel lblSensor = new JLabel("Sensor 1 :");
+		lblSensor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSensor.setBounds(6, 64, 100, 16);
+		panel.add(lblSensor);
+		
+		JLabel lblSensor_1 = new JLabel("Sensor 2 :");
+		lblSensor_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSensor_1.setBounds(6, 94, 100, 16);
+		panel.add(lblSensor_1);
+		
+		JLabel lblSensor_2 = new JLabel("Sensor 3 :");
+		lblSensor_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSensor_2.setBounds(6, 124, 100, 16);
+		panel.add(lblSensor_2);
+		
+		JLabel lblSensor_3 = new JLabel("Sensor 4 :");
+		lblSensor_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSensor_3.setBounds(6, 154, 100, 16);
+		panel.add(lblSensor_3);
+		
+		JLabel lblSensorState = new JLabel("Sensor State");
+		lblSensorState.setFont(new Font("Apple SD Gothic Neo", Font.BOLD, 14));
+		lblSensorState.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSensorState.setBounds(97, 6, 100, 16);
+		panel.add(lblSensorState);
+		
+		JSeparator separator = new JSeparator();
+		separator.setOrientation(SwingConstants.VERTICAL);
+		separator.setBounds(317, 154, 5, 225);
+		frame.getContentPane().add(separator);
+		
+		outputTextField = new JTextField();
+		outputTextField.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				String s = outputTextField.getText();
+	               if (!s.equals("")) 
+	               {
+	                  appendToChatBox("OUTGOING: " + s + "\n");
+	                  outputTextField.selectAll();
+
+	                  // Send the string
+	                  sendString(s);
+	               }
+			}
+		});
+		
+		outputTextField.setEnabled(false);
+		outputTextField.setBounds(328, 352, 197, 26);
+		frame.getContentPane().add(outputTextField);
+		outputTextField.setColumns(10);
+		
+		JButton btnSend = new JButton("Send");
+		btnSend.setBounds(524, 351, 100, 29);
+		frame.getContentPane().add(btnSend);
+		
+		JLabel lblHostIp = new JLabel("Host IP :");
+		lblHostIp.setBounds(25, 16, 61, 16);
+		frame.getContentPane().add(lblHostIp);
+		
+		JLabel lblPort = new JLabel("Port :");
+		lblPort.setBounds(25, 44, 61, 16);
+		frame.getContentPane().add(lblPort);
+		
+		lblStatus = new JLabel("Offline");
+		lblStatus.setForeground(Color.RED);
+		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		lblStatus.setFont(new Font("Apple SD Gothic Neo", Font.BOLD, 14));
+		lblStatus.setBounds(524, 65, 100, 16);
+		frame.getContentPane().add(lblStatus);
+		
+		input_textArea = new JTextArea();
+		input_textArea.setBounds(334, 154, 296, 191);
+		frame.getContentPane().add(input_textArea);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		JMenuItem mntmExit = new JMenuItem("Exit");
+		mnFile.add(mntmExit);
+		
+		JMenu mnEdit = new JMenu("Edit");
+		menuBar.add(mnEdit);
+		
+		JMenu mnRun = new JMenu("Run");
+		menuBar.add(mnRun);
+		
+		JMenuItem mntmScan = new JMenuItem("Scan");
+		mnRun.add(mntmScan);
+		
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+	}
+	// Thread-safe way to append to the chat box
+	   private static void appendToChatBox(String s) {
+	      synchronized (toAppend) {
+	         toAppend.append(s);
+	      }
+	   }
+
+	// The non-thread-safe way to change the GUI components while changing state
+	private static void changeStatusNTS(int newConnectStatus, boolean noError) {
+	      // Change state if valid state
+	      if (newConnectStatus != NULL) {
+	         connectionStatus = newConnectStatus;
+	      }
+
+	      // If there is no error, display the appropriate status message
+	      if (noError) {
+	         statusString = statusMessages[connectionStatus];
+	      }
+	      // Otherwise, display error message
+	      else {
+	         statusString = statusMessages[NULL];
+	      }
+
+	      // Call the run() routine (Runnable interface) on the
+	      // current thread
+	      tcpObj.run();
+	   }
+	// Checks the current state and sets the enables/disables
+	   // accordingly
+	@Override
+	   public void run() {
+	      switch (connectionStatus) {
+	      case DISCONNECTED:
+	    	  btnConnect.setEnabled(true);
+	    	  btnDisconnect.setEnabled(false);
+	    	  hostIP_textField.setEnabled(true);
+	         port_textField.setEnabled(true);
+	         outputTextField.setText(""); outputTextField.setEnabled(false);
+	         lblStatus.setForeground(Color.red);
+	         break;
+
+	      case DISCONNECTING:
+	    	  btnConnect.setEnabled(false);
+	    	  btnDisconnect.setEnabled(false);
+	    	  hostIP_textField.setEnabled(false);
+	    	  port_textField.setEnabled(false);
+	    	  outputTextField.setEnabled(false);
+	         lblStatus.setForeground(Color.orange);
+	         break;
+
+	      case CONNECTED:
+	         btnConnect.setEnabled(false);
+	         btnDisconnect.setEnabled(true);
+	         hostIP_textField.setEnabled(false);
+	         port_textField.setEnabled(false);
+	         outputTextField.setEnabled(true);
+	         lblStatus.setForeground(Color.green);
+	         break;
+
+	      case BEGIN_CONNECT:
+	    	  btnConnect.setEnabled(false);
+	    	  btnDisconnect.setEnabled(false);
+	    	  hostIP_textField.setEnabled(false);
+	    	  port_textField.setEnabled(false);
+	    	  outputTextField.setEnabled(false);
+	    	  outputTextField.grabFocus();
+	         lblStatus.setForeground(Color.orange);
+	         break;
+	      }
+
+	      // Make sure that the button/text field states are consistent
+	      // with the internal states
+	      hostIP_textField.setText(hostIP);
+	      port_textField.setText((new Integer(port)).toString());
+	      lblStatus.setText(statusString);
+	      input_textArea.append(toAppend.toString());
+	      toAppend.setLength(0);
+
+	      frame.repaint();
+	   }
+
+	// Add text to send-buffer
+	   private static void sendString(String s) {
+	      synchronized (toSend) {
+	         toSend.append(s + "\n");
+	      }
+	   }
+}
