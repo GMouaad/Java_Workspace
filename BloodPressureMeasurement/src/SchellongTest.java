@@ -2,25 +2,33 @@
  * Projekt : BloodPressureMeasurement
  * Filename : SchellongTest.java
  * Beschreibung :
- * Author : Mouaad Gssair
+ * @author : Mouaad Gssair
  * Imm.Nummer : 294618
  * Verlauf : Oct 31, 2017
 */
 
-/**
- * @author MouaadGssair
- *
- */
+
 public class SchellongTest extends GenericTest 
 {
+	SchellongControl schellongControlDialog;
+	
 	public SchellongTest(String name) 
 	{
 		super(name);
 		measurementArray = new Measurement[4];
 	}
-	public String analizeValues()
+	public String analyzeValues()
     {
-        String MAnalysG = "dumb text in SchellongTest";
+        String MAnalysG = "Analyse Measurement of Schellong Test";
         return MAnalysG;
     }
+	public void startTest()
+	{
+		schellongControlDialog = new  SchellongControl();
+		schellongControlDialog.showDialog();
+	}
+	public String toString()
+	{
+		return (super.getName());
+	}
 }

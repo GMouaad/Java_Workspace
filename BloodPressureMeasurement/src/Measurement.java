@@ -17,12 +17,12 @@ public class Measurement {
 	private int systolic;
 	private int diastolic;
 	private Date theTime;
-	public  Measurement(int pulse, int diastolic, int systolic, Date theTime)
+	public  Measurement(int pulse, int diastolic, int systolic)
 	{
 		this.pulse = pulse;
 		this.systolic = systolic;
 		this.diastolic = diastolic;
-		this.theTime = theTime;
+		this.theTime = new Date();
 	}
 	public int MgetPulseG()
 	{

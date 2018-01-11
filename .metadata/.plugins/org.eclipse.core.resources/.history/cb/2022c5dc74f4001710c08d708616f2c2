@@ -1,0 +1,168 @@
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.GraphicsConfiguration;
+import java.awt.Window;
+
+import javax.swing.JDialog;
+
+/**
+ * Projekt : BloodPressureMeasurement
+ * Filename : EditTestDialog.java
+ * Beschreibung :
+ * @author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * Verlauf : Jan 8, 2018
+*/
+
+
+public class EditTestDialog extends JDialog {
+
+	/**
+	 * 
+	 */
+	public EditTestDialog() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 */
+	public EditTestDialog(Frame owner) {
+		super(owner);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 */
+	public EditTestDialog(Dialog owner) {
+		super(owner);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 */
+	public EditTestDialog(Window owner) {
+		super(owner);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param modal
+	 */
+	public EditTestDialog(Frame owner, boolean modal) {
+		super(owner, modal);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param title
+	 */
+	public EditTestDialog(Frame owner, String title) {
+		super(owner, title);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param modal
+	 */
+	public EditTestDialog(Dialog owner, boolean modal) {
+		super(owner, modal);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param title
+	 */
+	public EditTestDialog(Dialog owner, String title) {
+		super(owner, title);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param modalityType
+	 */
+	public EditTestDialog(Window owner, ModalityType modalityType) {
+		super(owner, modalityType);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param title
+	 */
+	public EditTestDialog(Window owner, String title) {
+		super(owner, title);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param title
+	 * @param modal
+	 */
+	public EditTestDialog(Frame owner, String title, boolean modal) {
+		super(owner, title, modal);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param title
+	 * @param modal
+	 */
+	public EditTestDialog(Dialog owner, String title, boolean modal) {
+		super(owner, title, modal);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param title
+	 * @param modalityType
+	 */
+	public EditTestDialog(Window owner, String title, ModalityType modalityType) {
+		super(owner, title, modalityType);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param title
+	 * @param modal
+	 * @param gc
+	 */
+	public EditTestDialog(Frame owner, String title, boolean modal, GraphicsConfiguration gc) {
+		super(owner, title, modal, gc);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param title
+	 * @param modal
+	 * @param gc
+	 */
+	public EditTestDialog(Dialog owner, String title, boolean modal, GraphicsConfiguration gc) {
+		super(owner, title, modal, gc);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param owner
+	 * @param title
+	 * @param modalityType
+	 * @param gc
+	 */
+	public EditTestDialog(Window owner, String title, ModalityType modalityType, GraphicsConfiguration gc) {
+		super(owner, title, modalityType, gc);
+		// TODO Auto-generated constructor stub
+	}
+
+}

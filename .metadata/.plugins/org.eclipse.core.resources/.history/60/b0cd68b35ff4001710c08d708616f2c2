@@ -1,0 +1,30 @@
+import java.awt.Image;
+import java.awt.LayoutManager;
+import java.awt.Toolkit;
+
+import javax.swing.JPanel;
+
+public class BackgroundPanel extends JPanel {
+
+	
+	Image img;
+	public BackgroundPanel() {
+		Image img = Toolkit.getDefaultToolkit().createImage("Measurement_Background.jpeg");
+	}
+
+	public BackgroundPanel(LayoutManager layout) {
+		super(layout);
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackgroundPanel(boolean isDoubleBuffered) {
+		super(isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackgroundPanel(LayoutManager layout, boolean isDoubleBuffered) {
+		super(layout, isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+}

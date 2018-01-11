@@ -42,7 +42,7 @@ public class BloodPressureMeasurement {
 	}
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 700, 450);
+		frame.setBounds(100, 100, 720, 485);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Blood preasure measurement");
 		mainContent = new MainContent();

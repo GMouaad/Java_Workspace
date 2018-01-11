@@ -1,0 +1,115 @@
+/**
+ * Projekt : BloodPressureMeasurement
+ * Filename : EditTestDialog.java
+ * Beschreibung :
+ * @author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * Verlauf : Jan 8, 2018
+*/
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+public class EditTestDialog extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	private JTextField textField;
+	private String testName,selectedTest;
+	private ButtonGroup testType_ButtonGroup;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			EditTestDialog dialog = new EditTestDialog("defaultName" , "defaultType");
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public String getTestName()
+	{
+		return testName;
+	}
+	public String getSelectedTest()
+	{
+		return selectedTest;
+	}
+	
+	/**
+	 * Create the dialog.
+	 */
+	public EditTestDialog(String oldName , String xtestType) {
+		setBounds(100, 100, 450, 300);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		contentPanel.setLayout(null);
+		{
+			JLabel lblTestName = new JLabel("Test Name :");
+			lblTestName.setBounds(24, 15, 75, 16);
+			contentPanel.add(lblTestName);
+		}
+		{
+			textField = new JTextField(oldName);
+			textField.setBounds(104, 10, 130, 26);
+			contentPanel.add(textField);
+			textField.setColumns(10);
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(textField.getText() != "" )
+						{
+							testName = textField.getText();
+							if(rdbtnFitnessTest.isSelected())
+							{
+								selectedTest = "F";
+							}
+							else
+								selectedTest = "S";
+							setVisible(false);
+						}
+						else
+							JOptionPane.showMessageDialog(null,"Please enter a name for the Test");
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						setVisible(false);
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+		testType_ButtonGroup = new ButtonGroup();
+	}
+
+}

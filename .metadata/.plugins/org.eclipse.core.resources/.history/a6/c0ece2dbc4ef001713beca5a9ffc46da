@@ -1,0 +1,30 @@
+import javax.swing.JPanel;
+
+/**
+ * Projekt : BloodPressureMeasurement
+ * Filename : Diagram.java
+ * Beschreibung :
+ * Author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * Verlauf : Jan 2, 2018
+*/
+
+/**
+ * @author MouaadGssair
+ *
+ */
+public class Diagram extends JPanel {
+
+	private MainContent mainContentInstance;
+	private GenericTest actualTest;
+	private Measurement measurment;
+	
+	/**
+	 * 
+	 */
+	public Diagram(MainContent instance) {
+		mainContentInstance = instance;
+	}
+
+	
+}

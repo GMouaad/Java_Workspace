@@ -1,0 +1,26 @@
+import java.awt.LayoutManager;
+
+import javax.swing.JPanel;
+
+public class BackgroundPanel extends JPanel {
+
+	public BackgroundPanel() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackgroundPanel(LayoutManager layout) {
+		super(layout);
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackgroundPanel(boolean isDoubleBuffered) {
+		super(isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+	public BackgroundPanel(LayoutManager layout, boolean isDoubleBuffered) {
+		super(layout, isDoubleBuffered);
+		// TODO Auto-generated constructor stub
+	}
+
+}

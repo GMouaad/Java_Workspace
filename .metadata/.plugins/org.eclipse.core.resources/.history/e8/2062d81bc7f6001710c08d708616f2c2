@@ -1,0 +1,62 @@
+/**
+ * @Filename : FitnessControl.java
+ * Description : Subclasse of TestControl(JDialog).
+ * @author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * 
+*/
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class FitnessControl extends TestControl {
+
+	private final JPanel contentPanel = new JPanel();
+
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		try {
+			FitnessControl dialog = new FitnessControl();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void stateMachine()
+	{
+		switch(State)
+		{
+			case 1 : lblLabelText.setText("10 Jumping jacks");
+			case 2 : lblLabelText.setText("20 Squats");
+			case 3 : lblLabelText.setText("20 Push-ups");
+			case 4 : lblLabelText.setText("30 Lungues");
+		}
+	}
+	
+	public void showDialog()
+	{
+		setModal(true);
+		setVisible(true);
+	}
+
+	/**
+	 * Create the dialog.
+	 */
+	public FitnessControl() {
+		super();
+	}
+
+}

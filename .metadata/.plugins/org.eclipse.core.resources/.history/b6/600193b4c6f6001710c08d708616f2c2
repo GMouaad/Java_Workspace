@@ -1,0 +1,105 @@
+/**
+ * @Filename : TestControl.java
+ * Description : Subclasse of JDialog, SuperClass for FitnessControl and SchellongControl.
+ * @author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * 
+*/
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JLabel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public abstract class TestControl extends JDialog {
+
+	private final JPanel contentPanel = new JPanel();
+	protected JLabel lblLabelText;
+	protected JButton okButton;
+	protected JButton cancelButton;
+	protected Timer theTimer;
+	protected int State;
+	
+	
+	/**
+	 * Launch the application.
+	 */
+
+	public void setTimer(int t)
+	{
+		theTimer = new Timer(t, 
+				new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Toolkit.getDefaultToolkit().beep();
+						theTimer.stop();
+						State++;
+                        stateMachine();
+					}
+			
+		});
+		theTimer.start();
+	}
+	
+	public abstract void stateMachine();
+	
+	public void showDialog()
+	{
+		setModal(true);
+		setVisible(true);
+	}
+	
+	/**
+	 * Create the dialog.
+	 */
+	public TestControl() {
+		setBounds(100, 100, 300, 200);
+		getContentPane().setLayout(new BorderLayout());
+		contentPanel.setLayout(new FlowLayout());
+		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		{
+			lblLabelText = new JLabel("label text");
+			contentPanel.add(lblLabelText);
+		}
+		{
+			JPanel buttonPane = new JPanel();
+			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			{
+				okButton = new JButton("Weiter");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						stateMachine();
+						State++;
+					}
+				});
+				okButton.setActionCommand("OK");
+				buttonPane.add(okButton);
+				getRootPane().setDefaultButton(okButton);
+			}
+			{
+				cancelButton = new JButton("Abbrechen");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						theTimer.stop();
+						dispose();
+						setVisible(false);
+					}
+				});
+				cancelButton.setActionCommand("Cancel");
+				buttonPane.add(cancelButton);
+			}
+		}
+	}
+
+}

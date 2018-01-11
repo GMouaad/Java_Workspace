@@ -1,0 +1,49 @@
+import java.awt.Graphics;
+
+import javax.swing.JPanel;
+
+/**
+ * Projekt : BloodPressureMeasurement
+ * Filename : Diagram.java
+ * Beschreibung :
+ * Author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * Verlauf : Jan 2, 2018
+*/
+
+/**
+ * @author MouaadGssair
+ *
+ */
+public class Diagram extends JPanel {
+
+	private MainContent mainContentInstance;
+	private GenericTest actualTest;
+	private Measurement measurment;
+	
+	/**
+	 * 
+	 */
+	public Diagram(MainContent instance) {
+		mainContentInstance = instance;
+	}
+
+	public void paintComponent(Graphics grafic){
+		super.paintComponent(grafic);
+		final int zeroX = 50;							// X-Nullpunkt
+		final int zeroY = 310;							// Y-Nullpunkt
+		final int endX = 380;							// Endwert X-Achse
+		final int endY = 40;							// Endwert Y-Achse
+		
+		final int legX = 300;							// X-Position Legende
+		final int legY = 40;							// Y-Position Legende
+		
+		grafic.drawLine(zeroX, zeroY, endX, zeroY);
+		grafic.drawLine(zeroX, zeroY, zeroX, endY);
+		
+		
+		
+	}
+	
+	
+}

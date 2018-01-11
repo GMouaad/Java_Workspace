@@ -22,9 +22,10 @@ import java.text.*;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 
-public class GenericTest {
+public abstract class GenericTest {
 	
 	private String name;
 	private Date date;
@@ -43,10 +44,10 @@ public class GenericTest {
             pulse = rand(70, 140);
             systolic = rand(40, 120);
             diastolic = rand(40, 80);
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            Date date = new Date();
+            //DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            //Date date = new Date();
             //measurementArray[i] = new Measurement(pulse, diastolic, systolic, dateFormat.format(date));
-            measurementArray[i] = new Measurement(pulse, diastolic, systolic, date);
+            measurementArray[i] = new Measurement(pulse, diastolic, systolic);
         }
     }
 	public int rand (int min , int max)
@@ -57,7 +58,7 @@ public class GenericTest {
 	
 	//set value of name 
 	//string name { get; set; }
-	public void MsetNameG(String newName)
+	public void setName(String newName)
 	{
 		name = newName;
 	}
@@ -71,15 +72,28 @@ public class GenericTest {
 	{
 		return date;
 	}
-	public Measurement[] getArray()
+	public Measurement[] getMeasurementArray()
     {
         return measurementArray;
     }
 	public void print()
 	{
 		
-		System.out.println("Name :\n" + name);
+		System.out.println("\nName : " + name);
+		System.out.println("\nDate : " + date);
+		for(int i = 0 ; i < (measurementArray.length - 1);i++ )
+		{
+			System.out.printf("\nMessung: %i", (i+1));
+			measurementArray[i].printValues();
+		}
+		
 	}
 
-
+	public abstract String analyzeValues();
+	
+	public void startTest()
+	{
+		GregorianCalendar now = new GregorianCalendar();
+		date = new Date(now.getTimeInMillis());
+	}
 }

@@ -7,21 +7,31 @@
  * Verlauf : Oct 31, 2017
 */
 
-/**
- * @author MouaadGssair
- *
- */
+
 public class FitnessTest extends GenericTest 
 {
+	private FitnessControl fitnessControlDialog;
+	
 	public FitnessTest(String name) 
 	{
 		super(name);
 		measurementArray = new Measurement[4];
 	}
-	public String analizeValues()
+	
+	public String analyzeValues()
     {
-        String MAnalysG = "dumb text in fitnessTest";
+        String MAnalysG = "Analyse Measurement of Fitness Test";
         return MAnalysG;
     }
+	public void startTest()
+	{
+		fitnessControlDialog = new  FitnessControl();
+		fitnessControlDialog.showDialog();
+	}
+	
+	public String toString()
+	{
+		return (super.getName());
+	}
 
 }

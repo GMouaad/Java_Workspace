@@ -1,0 +1,23 @@
+/**
+ * Projekt : BloodPressureMeasurement
+ * Filename : Diagram.java
+ * Beschreibung :
+ * Author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * Verlauf : Jan 2, 2018
+*/
+
+/**
+ * @author MouaadGssair
+ *
+ */
+public class Diagram {
+
+	/**
+	 * 
+	 */
+	public Diagram() {
+		// TODO Auto-generated constructor stub
+	}
+
+}
