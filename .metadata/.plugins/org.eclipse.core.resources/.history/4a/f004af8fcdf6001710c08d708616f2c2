@@ -1,0 +1,54 @@
+import java.awt.GraphicsConfiguration;
+import java.awt.HeadlessException;
+
+import javax.swing.JFrame;
+
+/**
+ * Projekt : BloodPressureMeasurement
+ * Filename : FileChooser.java
+ * Beschreibung :
+ * Author : Mouaad Gssair
+ * Imm.Nummer : 294618
+ * Verlauf : Jan 11, 2018
+*/
+
+/**
+ * @author MouaadGssair
+ *
+ */
+public class FileChooser extends JFrame {
+
+	/**
+	 * @throws HeadlessException
+	 */
+	public FileChooser() throws HeadlessException {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param gc
+	 */
+	public FileChooser(GraphicsConfiguration gc) {
+		super(gc);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param title
+	 * @throws HeadlessException
+	 */
+	public FileChooser(String title) throws HeadlessException {
+		super(title);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param title
+	 * @param gc
+	 */
+	public FileChooser(String title, GraphicsConfiguration gc) {
+		super(title, gc);
+		// TODO Auto-generated constructor stub
+	}
+
+}

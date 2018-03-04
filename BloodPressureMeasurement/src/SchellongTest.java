@@ -1,3 +1,5 @@
+import java.io.Serializable;
+
 /**
  * Projekt : BloodPressureMeasurement
  * Filename : SchellongTest.java
@@ -8,7 +10,7 @@
 */
 
 
-public class SchellongTest extends GenericTest 
+public class SchellongTest extends GenericTest implements Serializable
 {
 	SchellongControl schellongControlDialog;
 	
@@ -19,8 +21,27 @@ public class SchellongTest extends GenericTest
 	}
 	public String analyzeValues()
     {
-        String MAnalysG = "Analyse Measurement of Schellong Test";
-        return MAnalysG;
+		String analysResult=" ";
+		int checkPulse=0;
+		int checkDia=0;
+		int checkSys=0;
+		
+        for (int i = 0; i < measurementArray.length; i++) {
+             checkPulse +=  measurementArray[i].getPulse();
+             checkDia += measurementArray[i].getDiastolic();
+             checkSys += measurementArray[i].getSystolic(); }
+        System.out.println(checkPulse);
+        
+        if(checkPulse/measurementArray.length < 90 || checkPulse/measurementArray.length > 170) {
+        	analysResult +="Puls not OK!,   ";
+        } else analysResult+="Puls OK!,   ";
+        if(checkDia/measurementArray.length < 80 || checkDia/measurementArray.length > 110) {
+        	analysResult +="DB not OK!,   ";
+        } else analysResult+="DB OK!,   ";
+        if(checkSys/measurementArray.length < 110 || checkSys/measurementArray.length > 140) {
+        	analysResult +="SB not OK!";
+        } else analysResult+="SB OK!";
+        return analysResult;
     }
 	public void startTest()
 	{

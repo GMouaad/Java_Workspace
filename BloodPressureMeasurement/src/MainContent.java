@@ -15,9 +15,19 @@ import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.awt.BorderLayout;
+import java.awt.FileDialog;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -32,13 +42,15 @@ public class MainContent extends JPanel {
 	private JLabel lblAnalysLabel;
 	private JComboBox comboBox;
 	private NewTestDialog newTestDialog;
+	private JFrame frameInstance;
 	
 	/**
 	 * Create the panel.
 	 */
-	public MainContent() 
+	public MainContent(JFrame frameInstance) 
 	{
 		setLayout(null);
+		this.frameInstance = frameInstance;
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 734, 22);
@@ -50,8 +62,8 @@ public class MainContent extends JPanel {
 		JMenuItem mntmSave = new JMenuItem("Save");
 		mntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO : implement Function
-				JOptionPane.showMessageDialog(null,"Not implimented yet !");
+				//JOptionPane.showMessageDialog(null,"Not implimented yet !");
+				
 			}
 		});
 		mnFile.add(mntmSave);
@@ -94,7 +106,7 @@ public class MainContent extends JPanel {
 						counter++;
 						repaint();
 			        }
-			        // Not sure of this
+			        // do not need this anymore
 //			        else if((counter % 2) == 0)
 //					{
 //						genericTestArray[counter] = new FitnessTest("Test"+(counter +1));
@@ -132,8 +144,7 @@ public class MainContent extends JPanel {
 		JMenuItem mntmPrint = new JMenuItem("Print");
 		mntmPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO : implement Function
-				JOptionPane.showMessageDialog(null,"Not implimented yet !");
+				printTest();
 			}
 		});
 		mnTest.add(mntmPrint);
@@ -144,7 +155,8 @@ public class MainContent extends JPanel {
 		JMenuItem mntmRead = new JMenuItem("Read");
 		mntmRead.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getActualTest().readValues();
+				//getActualTest().readRandomValues();
+				readValues();
 				repaint();
 			}
 		});
@@ -153,9 +165,9 @@ public class MainContent extends JPanel {
 		JMenuItem mntmLoad = new JMenuItem("Load");
 		mntmLoad.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//TODO : implement Function
-				JOptionPane.showMessageDialog(null,"Not implimented yet !");
-				//comboBox.setSelectedItem(genericTestArray[counter]);
+				//JOptionPane.showMessageDialog(null,"Not implimented yet !");
+				readSerial();
+				repaint();
 			}
 		});
 		mnMeasurement.add(mntmLoad);
@@ -163,7 +175,7 @@ public class MainContent extends JPanel {
 		JMenuItem mntmSaveData = new JMenuItem("Save Data");
 		mntmSaveData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null,"Not implimented yet !");
+				writeSerial();
 			}
 		});
 		mnMeasurement.add(mntmSaveData);
@@ -197,7 +209,8 @@ public class MainContent extends JPanel {
 		JButton btnReadButton = new JButton("Read Measurement");
 		btnReadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				getActualTest().readValues();
+				getActualTest().readRandomValues(); 
+				//readValues();
 				repaint();
 			}
 		});
@@ -240,4 +253,171 @@ public class MainContent extends JPanel {
 	{
 		lblAnalysLabel.setText(text);
 	}
+	public void writeSerial()
+    {
+       FileDialog fileDialog = new FileDialog(frameInstance); 
+        try {
+            fileDialog.setVisible(true);
+            String chosenDir = fileDialog.getDirectory();
+            String chosenFile = fileDialog.getFile();
+            if (chosenDir == null || chosenFile == null) 
+            {
+                System.out.println("no file selected");   
+            }else 
+            {
+                System.out.println("Datei = "+chosenFile);
+                System.out.println("Ordner = "+chosenDir);
+            }
+            fileDialog.dispose();
+            
+            FileOutputStream fileOutputStream = new FileOutputStream(chosenDir+chosenFile);
+            ObjectOutputStream objOutputStream = new ObjectOutputStream(fileOutputStream);
+            objOutputStream.writeObject(genericTestArray);
+            objOutputStream.close();
+            fileOutputStream.close();
+            System.out.println("Done");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    //Read
+    public void readSerial()
+    {
+        FileDialog fileDialog = new FileDialog(frameInstance); 
+        
+        try {
+            fileDialog.setVisible(true);
+            
+            String chosenDir = fileDialog.getDirectory();
+            String chosenFile = fileDialog.getFile();
+            if (chosenDir == null || chosenFile == null) 
+            {
+                System.out.println("no file selected");   
+            }else 
+            {
+                System.out.println("File = "+chosenFile);
+                System.out.println("Directory = "+chosenDir);
+            }
+            fileDialog.dispose();
+            
+            FileInputStream fileInputStream = new FileInputStream(chosenDir+chosenFile);
+            ObjectInputStream objInputStream = new ObjectInputStream(fileInputStream);
+            genericTestArray = (GenericTest[]) objInputStream.readObject();
+            
+            System.out.println(genericTestArray[0].toString());
+            actualTest=genericTestArray[0];
+            System.out.println("actual Test : "+actualTest.getName());
+            if(actualTest.getMeasurementArray() == null)
+            {
+            	System.out.println("no Measurment found");
+            }
+            
+            objInputStream.close();
+            fileInputStream.close();
+            System.out.println("Done");
+            
+            //Restore Combobox
+            restoreComboBox();
+            
+            
+        } catch (Exception e) 
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void restoreComboBox()
+    {
+    	comboBox.removeAllItems();
+       
+        for (int i = 0; i < genericTestArray.length; i++) 
+        {
+        	if (genericTestArray[i].getName() != null) 
+        	{
+        		comboBox.addItem(genericTestArray[i]);
+        		counter=i; //reset Counter Variable
+           }
+       }
+   }
+    public void printTest()
+    {
+        FileDialog fileDialog = new FileDialog(frameInstance);
+        PrintWriter printWriter;
+        
+        try {
+            fileDialog.setVisible(true);
+            
+            String chosenDir = fileDialog.getDirectory();
+            String chosenFile = fileDialog.getFile();
+            if (chosenDir == null || chosenFile == null) 
+            {
+                System.out.println("no file selected");   
+            }else 
+            {
+                System.out.println("File = "+chosenFile);
+                System.out.println("Directory = "+chosenDir);
+            }
+            fileDialog.dispose();
+            
+            printWriter = new PrintWriter(chosenDir+chosenFile);
+            
+            //Text to be printed
+            printWriter.println("TestName: "+actualTest.getName());
+            actualTest.print(printWriter);
+            printWriter.close();
+            System.out.println("... writing to File ...DONE");
+            }catch (Exception e) 
+        {
+            System.out.println(e.getMessage());
+        }
+        
+    }
+    public void readValues()
+    {
+        
+        int i=0;
+        FileDialog fileDialog = new FileDialog(frameInstance); 
+        String fileName = "MeasurementSample.txt" , currentLine ;
+        String lineArray[]=new String[0];
+       
+        /**/
+        try {
+        	fileDialog.setVisible(true);
+            
+            String chosenDir = fileDialog.getDirectory();
+            String chosenFile = fileDialog.getFile();
+            if (chosenDir == null || chosenFile == null) 
+            {
+                System.out.println("No file selected");   
+            }else 
+            {
+                System.out.println("File = "+chosenFile);
+                System.out.println("Directory = "+chosenDir);
+            }
+            System.out.println("Done");
+        	// this could be used if special internal storage (everything will be stored in "MeasuerementSample.txt") was used 
+			//FileReader fileReader = new FileReader(fileName);
+        	FileReader fileReader = new FileReader(chosenDir+chosenFile);
+			BufferedReader br = new BufferedReader(fileReader);
+			while( (currentLine = br.readLine()) != null)
+			{
+				lineArray = currentLine.split(" ");
+				actualTest.readValues(i,Integer.parseInt(lineArray[0]),Integer.parseInt(lineArray[1]),Integer.parseInt(lineArray[2]));
+				genericTestArray[i].readValues(i,Integer.parseInt(lineArray[0]),Integer.parseInt(lineArray[1]),Integer.parseInt(lineArray[2]));
+				if(i<lineArray.length)
+				{
+				i++;
+				}
+			}
+			br.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+        
+        
+    }
+
+
 }

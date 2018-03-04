@@ -86,11 +86,11 @@ public class Diagram extends JPanel {
 						mainContentInstance.setAnalysLabel(actualTest.analyzeValues());
 						for(int i=0 ; i < measurementArray.length ; i++){
 							graphic.setColor(Color.red);
-							graphic.fillRect(40+zeroX+i*40, zeroY-measurementArray[i].MgetPulseG(), 4, 4);
+							graphic.fillRect(40+zeroX+i*40, zeroY-measurementArray[i].getPulse(), 4, 4);
 							graphic.setColor(Color.blue);
-							graphic.fillRect(40+zeroX+i*40, zeroY-measurementArray[i].MgetdiastolicG(), 4, 4);
+							graphic.fillRect(40+zeroX+i*40, zeroY-measurementArray[i].getDiastolic(), 4, 4);
 							graphic.setColor(Color.green);
-							graphic.fillRect(40+zeroX+i*40, zeroY-measurementArray[i].MgetsystolicG(), 4, 4);
+							graphic.fillRect(40+zeroX+i*40, zeroY-measurementArray[i].getSystolic(), 4, 4);
 						}	
 					}
 				}

@@ -7,11 +7,13 @@
  * 
 */
 
+import java.io.PrintWriter;
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Measurement {
+public class Measurement implements Serializable {
 	
 	private int pulse;
 	private int systolic;
@@ -24,30 +26,30 @@ public class Measurement {
 		this.diastolic = diastolic;
 		this.theTime = new Date();
 	}
-	public int MgetPulseG()
+	public int getPulse()
 	{
 		return pulse;
 	}
-	public int MgetsystolicG()
+	public int getSystolic()
 	{
 		return systolic;
 	}
-	public int MgetdiastolicG()
+	public int getDiastolic()
 	{
 		return diastolic;
 	}
-	public Date MgetTheTimeG()
+	public Date getTheTime()
 	{
 		return theTime;
 	}
-	public void printValues()
+	public void printValues(PrintWriter printWriter)
 	{
-		System.out.println("Pulse : " + pulse);
-		System.out.println("Systolic blood pressure : " + systolic);
-		System.out.println("Diastolic blood pressure : " + diastolic);
+		printWriter.println("Pulse : " + pulse);
+		printWriter.println("Systolic blood pressure : " + systolic);
+		printWriter.println("Diastolic blood pressure : " + diastolic);
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		System.out.println("Date : " + dateFormat.format(theTime));
-		System.out.println("");
+		printWriter.println("Date : " + dateFormat.format(theTime));
+		printWriter.println("");
 	}
 
 

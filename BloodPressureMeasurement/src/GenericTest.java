@@ -18,6 +18,14 @@
  * System.out.println(theString);
  */
 
+import java.awt.FileDialog;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Serializable;
 import java.text.*;
 
 import java.util.*;
@@ -25,31 +33,31 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.Random;
 
 
-public abstract class GenericTest {
+public abstract class GenericTest implements Serializable {
 	
 	private String name;
 	private Date date;
-	protected Measurement[] measurementArray;
+	protected Measurement[] measurementArray=new Measurement[0];
 	//creat a Constractor
 	public GenericTest(String name)
 	{
 		this.name = name;
 	}
-	public void readValues()
-    {
-        
-        int pulse, systolic, diastolic;
-        for (int i = 0; i < measurementArray.length; i++)
+	public void readRandomValues()
+	{
+		int pulse, systolic, diastolic;
+		for (int i = 0; i < measurementArray.length; i++)
         {
             pulse = rand(70, 140);
             systolic = rand(40, 120);
             diastolic = rand(40, 80);
-            //DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            //Date date = new Date();
-            //measurementArray[i] = new Measurement(pulse, diastolic, systolic, dateFormat.format(date));
             measurementArray[i] = new Measurement(pulse, diastolic, systolic);
         }
-    }
+	}
+	public void readValues(int index,int pulse, int dia, int sys)
+	{
+		measurementArray[index] = new Measurement(pulse, dia, sys);
+	}
 	public int rand (int min , int max)
 	{
 		int randomNum = ThreadLocalRandom.current().nextInt(min, max + 1);
@@ -76,16 +84,17 @@ public abstract class GenericTest {
     {
         return measurementArray;
     }
-	public void print()
+	public void print(PrintWriter printWriter)
 	{
 		
-		System.out.println("\nName : " + name);
-		System.out.println("\nDate : " + date);
+		printWriter.println("\nName : " + name);
+		printWriter.println("\nDate : " + date);
 		for(int i = 0 ; i < (measurementArray.length - 1);i++ )
 		{
-			System.out.printf("\nMessung: %i", (i+1));
-			measurementArray[i].printValues();
+			printWriter.printf("\nMessung: %i", (i+1));
+			measurementArray[i].printValues(printWriter);
 		}
+		printWriter.println("----------------------------------------------------------------");
 		
 	}
 
