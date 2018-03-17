@@ -1,0 +1,36 @@
+/**
+ * @author MouaadGssair
+ * @fileName MainClass
+ * @created 17.03.2018
+ * @modified 17.03.2018
+ * @description MainClass to controll the GPIO's of the Raspberry Pi
+ */
+
+import com.pi4j.io.gpio.GpioController;
+import com.pi4j.io.gpio.GpioFactory;
+import com.pi4j.io.gpio.GpioPinDigitalOutput;
+import com.pi4j.io.gpio.RaspiPin;
+
+public class MainClass {
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		GpioController gpioController = GpioFactory.getInstance() ;
+		GpioPinDigitalOutput pinOut = gpioController.provisionDigitalOutputPin(RaspiPin.GPIO_08);
+		
+		for(int i=0;i<100;i++)
+		{
+			pinOut.low();
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			pinOut.high();
+		}
+		
+	}
+
+}
