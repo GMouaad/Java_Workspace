@@ -34,4 +34,8 @@
 <fullyQualifiedTypeName name="java.io.FileReader"/>
 <fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="java.awt.FileDialog"/>
+<fullyQualifiedTypeName name="com.pi4j.io.gpio.GpioController"/>
+<fullyQualifiedTypeName name="com.pi4j.io.gpio.GpioFactory"/>
+<fullyQualifiedTypeName name="com.pi4j.io.gpio.RaspiPin"/>
+<fullyQualifiedTypeName name="com.pi4j.io.gpio.GpioPinDigitalOutput"/>
 </qualifiedTypeNameHistroy>

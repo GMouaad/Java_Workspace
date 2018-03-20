@@ -29,12 +29,6 @@ public class MainClass {
 				e.printStackTrace();
 			}
 			pinOut.high();
-			try {
-				Thread.sleep(500);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		
 	}

@@ -11160,3 +11160,113 @@ java.io.FileNotFoundException: /Users/MouaadGssair/Desktop/_Studium/SelbstLM Jav
 	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1163)
 	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
 	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.core.resources 4 568 2018-03-17 15:33:11.505
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: /Users/MouaadGssair/Desktop/_Studium/SelbstLM Java/Java_Workspace/.metadata/.plugins/org.eclipse.core.resources/.projects/RemoteSystemsTempFiles/.markers.snap (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:133)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:45)
+	at org.eclipse.core.internal.localstore.SafeChunkyOutputStream.<init>(SafeChunkyOutputStream.java:41)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1769)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSnap(SaveManager.java:1853)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1222)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1163)
+	at org.eclipse.core.internal.resources.DelayedSnapshotJob.run(DelayedSnapshotJob.java:52)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+
+!ENTRY org.eclipse.ui.ide 4 4 2018-03-17 15:48:26.574
+!MESSAGE Problems saving workspace
+
+!ENTRY org.eclipse.ui.ide 4 1 2018-03-17 15:48:26.578
+!MESSAGE Problems occurred while trying to save the state of the workbench.
+!SUBENTRY 1 org.eclipse.core.resources 4 568 2018-03-17 15:48:26.578
+!MESSAGE Could not write metadata for '/RemoteSystemsTempFiles'.
+!STACK 0
+java.io.FileNotFoundException: /Users/MouaadGssair/Desktop/_Studium/SelbstLM Java/Java_Workspace/.metadata/.plugins/org.eclipse.core.resources/.projects/RemoteSystemsTempFiles/.markers (No such file or directory)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(FileOutputStream.java:270)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:213)
+	at java.io.FileOutputStream.<init>(FileOutputStream.java:162)
+	at org.eclipse.core.internal.localstore.SafeFileOutputStream.<init>(SafeFileOutputStream.java:51)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSave(SaveManager.java:1658)
+	at org.eclipse.core.internal.resources.SaveManager.visitAndSave(SaveManager.java:1740)
+	at org.eclipse.core.internal.resources.SaveManager.save(SaveManager.java:1197)
+	at org.eclipse.core.internal.resources.Workspace.save(Workspace.java:2270)
+	at org.eclipse.ui.internal.ide.application.IDEWorkbenchAdvisor$4.run(IDEWorkbenchAdvisor.java:453)
+	at org.eclipse.jface.operation.ModalContext$ModalContextThread.run(ModalContext.java:119)
+!SESSION 2018-03-20 10:44:08.743 -----------------------------------------------
+eclipse.buildId=4.5.2.M20160212-1500
+java.version=1.8.0_73
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/MouaadGssair/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/MouaadGssair/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 2 0 2018-03-20 10:45:15.278
+!MESSAGE Error parsing metadata repository
+!SUBENTRY 1 org.eclipse.equinox.p2.core 2 0 2018-03-20 10:45:15.278
+!MESSAGE Error in file:/Applications/Eclipse.app/Contents/Eclipse/p2/org.eclipse.equinox.p2.repository/cache/content-1560426045.jar at line 57327, column 62: Missing required attribute in "property": value
+
+!ENTRY org.eclipse.equinox.p2.operations 4 10053 2018-03-20 10:46:47.674
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 10053 2018-03-20 10:46:47.674
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.674
+!MESSAGE Software being installed: PHP Development Tools (PDT) JUnit Tests 5.2.0.201712021751 (org.eclipse.php.test.feature.group 5.2.0.201712021751)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.674
+!MESSAGE Missing requirement: Composer Test plugin 5.2.0.201712021751 (org.eclipse.php.composer.tests 5.2.0.201712021751) requires 'bundle org.eclipse.dltk.core.tests 0.0.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2018-03-20 10:46:47.674
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.674
+!MESSAGE From: PHP Development Tools (PDT) JUnit Tests 5.2.0.201712021751 (org.eclipse.php.test.feature.group 5.2.0.201712021751)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.674
+!MESSAGE To: org.eclipse.php.composer.tests [5.2.0.201712021751]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 10053 2018-03-20 10:46:47.796
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 10053 2018-03-20 10:46:47.796
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.796
+!MESSAGE Software being installed: PHP Development Tools (PDT) JUnit Tests 5.2.0.201712021751 (org.eclipse.php.test.feature.group 5.2.0.201712021751)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.796
+!MESSAGE Missing requirement: Composer Test plugin 5.2.0.201712021751 (org.eclipse.php.composer.tests 5.2.0.201712021751) requires 'bundle org.eclipse.dltk.core.tests 0.0.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2018-03-20 10:46:47.796
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.796
+!MESSAGE From: PHP Development Tools (PDT) JUnit Tests 5.2.0.201712021751 (org.eclipse.php.test.feature.group 5.2.0.201712021751)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.796
+!MESSAGE To: org.eclipse.php.composer.tests [5.2.0.201712021751]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 10053 2018-03-20 10:46:47.830
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 10053 2018-03-20 10:46:47.830
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.830
+!MESSAGE Software being installed: PHP Development Tools (PDT) JUnit Tests 5.2.0.201712021751 (org.eclipse.php.test.feature.group 5.2.0.201712021751)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.830
+!MESSAGE Missing requirement: Composer Test plugin 5.2.0.201712021751 (org.eclipse.php.composer.tests 5.2.0.201712021751) requires 'bundle org.eclipse.dltk.core.tests 0.0.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2018-03-20 10:46:47.830
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.830
+!MESSAGE From: PHP Development Tools (PDT) JUnit Tests 5.2.0.201712021751 (org.eclipse.php.test.feature.group 5.2.0.201712021751)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.830
+!MESSAGE To: org.eclipse.php.composer.tests [5.2.0.201712021751]
+
+!ENTRY org.eclipse.equinox.p2.operations 4 10053 2018-03-20 10:46:47.831
+!MESSAGE Operation details
+!SUBENTRY 1 org.eclipse.equinox.p2.director 4 10053 2018-03-20 10:46:47.831
+!MESSAGE Cannot complete the install because one or more required items could not be found.
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.831
+!MESSAGE Software being installed: PHP Development Tools (PDT) JUnit Tests 5.2.0.201712021751 (org.eclipse.php.test.feature.group 5.2.0.201712021751)
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.831
+!MESSAGE Missing requirement: Composer Test plugin 5.2.0.201712021751 (org.eclipse.php.composer.tests 5.2.0.201712021751) requires 'bundle org.eclipse.dltk.core.tests 0.0.0' but it could not be found
+!SUBENTRY 2 org.eclipse.equinox.p2.director 4 1 2018-03-20 10:46:47.831
+!MESSAGE Cannot satisfy dependency:
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.831
+!MESSAGE From: PHP Development Tools (PDT) JUnit Tests 5.2.0.201712021751 (org.eclipse.php.test.feature.group 5.2.0.201712021751)
+!SUBENTRY 3 org.eclipse.equinox.p2.director 4 0 2018-03-20 10:46:47.832
+!MESSAGE To: org.eclipse.php.composer.tests [5.2.0.201712021751]
