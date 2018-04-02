@@ -1,0 +1,113 @@
+/**
+ * Filename : MainContent.java
+ * Description : GUI class, Main Content
+ * Author : Mouaad Gssair
+ */
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JMenu;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JPasswordField;
+
+public class MainContent extends JPanel {
+
+	private JFrame frameInstance;
+	private JTextField userTextField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JPasswordField passwordField;
+	private JTextField txtFilepath;
+	private JTextField textField;
+	
+	/**
+	 * Create the panel.
+	 */
+	public MainContent(JFrame frameInstance) {
+		setLayout(null);
+		this.frameInstance = frameInstance;
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 600, 22);
+		add(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
+		
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//TODO : change link to a URL Hyperlink , see docm. https://binfalse.de/2011/01/03/adding-a-hyperlink-to-java-swing-gui/
+				JOptionPane.showMessageDialog(null,"\t\t\t File Exchange \n\n"
+						+ "Software developped by Mouaad Gssair \n"
+						+ "This Software is an Open-Source Software available in GitHub :\n"
+						+ "https://github.com/GMouaad/Java_Workspace/tree/master/FileExchange\n"
+						+ "For any other Informations, please contact Mgsair@gmail.com\n");
+			}
+		});
+		mnHelp.add(mntmAbout);
+		
+		JLabel lblHost = new JLabel("Host :");
+		lblHost.setBounds(40, 55, 61, 16);
+		add(lblHost);
+		
+		JLabel lblPort = new JLabel("Port :");
+		lblPort.setBounds(40, 85, 61, 16);
+		add(lblPort);
+		
+		JLabel lblUser = new JLabel("User :");
+		lblUser.setBounds(40, 115, 61, 16);
+		add(lblUser);
+		
+		JLabel lblPassword = new JLabel("Password :");
+		lblPassword.setBounds(40, 145, 80, 16);
+		add(lblPassword);
+		
+		userTextField = new JTextField();
+		userTextField.setBounds(113, 50, 130, 26);
+		add(userTextField);
+		userTextField.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setBounds(113, 80, 130, 26);
+		add(textField_1);
+		textField_1.setColumns(10);
+		
+		textField_2 = new JTextField();
+		textField_2.setBounds(113, 110, 130, 26);
+		add(textField_2);
+		textField_2.setColumns(10);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(113, 140, 130, 26);
+		add(passwordField);
+		
+		JLabel lblFile = new JLabel("File :");
+		lblFile.setBounds(40, 216, 61, 16);
+		add(lblFile);
+		
+		JLabel lblPath = new JLabel("Path :");
+		lblPath.setBounds(40, 244, 61, 16);
+		add(lblPath);
+		
+		txtFilepath = new JTextField();
+		txtFilepath.setText("");
+		txtFilepath.setBounds(113, 211, 130, 26);
+		add(txtFilepath);
+		txtFilepath.setColumns(10);
+		
+		textField = new JTextField();
+		textField.setBounds(113, 239, 130, 26);
+		add(textField);
+		textField.setColumns(10);
+		
+	}
+}

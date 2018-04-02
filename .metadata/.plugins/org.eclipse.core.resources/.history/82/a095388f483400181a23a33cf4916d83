@@ -1,0 +1,18 @@
+/**
+ * Filename : MainContent.java
+ * Description : GUI class, Main Content
+ * Author : Mouaad Gssair
+ */
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class MainContent extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public MainContent(JFrame frame) {
+
+	}
+
+}

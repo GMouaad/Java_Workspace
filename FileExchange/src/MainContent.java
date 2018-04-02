@@ -2,12 +2,18 @@
  * Filename : MainContent.java
  * Description : GUI class, Main Content
  * Author : Mouaad Gssair
+ * Created : 31. March 2018
+ * modified : 02. April 2018
  */
 import java.awt.FileDialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,6 +29,7 @@ import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 
 import javax.swing.JPasswordField;
@@ -31,6 +38,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JSeparator;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.JTextArea;
 
 public class MainContent extends JPanel {
 
@@ -47,8 +55,8 @@ public class MainContent extends JPanel {
     ChannelSftp channelSftp = null;
 
 	//UI Components
-	private String filePath;
-	private File selectedFile;
+	private String filePath,fileName;
+	private File selectedFile,fileToDownload;
 	private JFrame frameInstance;
 	private JTextField hostTxtField;
 	private JTextField portTxtField;
@@ -56,7 +64,10 @@ public class MainContent extends JPanel {
 	private JPasswordField passwordField;
 	private JTextField txtFilePath;
 	private JTextField destinationPath;
-	
+	private JTextField txtOrgFilePath;
+	private JTextField txtDestdir;
+	private JTextField txtFileName;
+	private JTextArea txtrLogs;
 	
 	/**
 	 * Create the panel.
@@ -66,11 +77,19 @@ public class MainContent extends JPanel {
 		this.frameInstance = frameInstance;
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 600, 22);
+		menuBar.setBounds(0, 0, 720, 22);
 		add(menuBar);
 		
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
+		
+		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+		mnFile.add(mntmExit);
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 		
@@ -88,56 +107,56 @@ public class MainContent extends JPanel {
 		mnHelp.add(mntmAbout);
 		
 		JLabel lblHost = new JLabel("Host :");
-		lblHost.setBounds(40, 81, 61, 16);
+		lblHost.setBounds(30, 51, 61, 16);
 		add(lblHost);
 		
 		JLabel lblPort = new JLabel("Port :");
-		lblPort.setBounds(40, 109, 61, 16);
+		lblPort.setBounds(30, 79, 61, 16);
 		add(lblPort);
 		
 		JLabel lblUser = new JLabel("User :");
-		lblUser.setBounds(40, 137, 61, 16);
+		lblUser.setBounds(30, 107, 61, 16);
 		add(lblUser);
 		
 		JLabel lblPassword = new JLabel("Password :");
-		lblPassword.setBounds(40, 165, 80, 16);
+		lblPassword.setBounds(30, 135, 80, 16);
 		add(lblPassword);
 		
 		hostTxtField = new JTextField();
-		hostTxtField.setBounds(113, 76, 130, 26);
+		hostTxtField.setBounds(103, 46, 130, 26);
 		add(hostTxtField);
 		hostTxtField.setColumns(10);
 		
 		portTxtField = new JTextField();
-		portTxtField.setBounds(113, 104, 130, 26);
+		portTxtField.setBounds(103, 74, 130, 26);
 		add(portTxtField);
 		portTxtField.setColumns(10);
 		
 		userTxtField = new JTextField();
-		userTxtField.setBounds(113, 132, 130, 26);
+		userTxtField.setBounds(103, 102, 130, 26);
 		add(userTxtField);
 		userTxtField.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(113, 160, 130, 26);
+		passwordField.setBounds(103, 130, 130, 26);
 		add(passwordField);
 		
 		JLabel lblFile = new JLabel("File :");
-		lblFile.setBounds(300, 81, 61, 16);
+		lblFile.setBounds(294, 83, 61, 16);
 		add(lblFile);
 		
-		JLabel lblPath = new JLabel("Path :");
-		lblPath.setBounds(300, 109, 61, 16);
+		JLabel lblPath = new JLabel("Dest. Path :");
+		lblPath.setBounds(294, 111, 79, 16);
 		add(lblPath);
 		
 		txtFilePath = new JTextField();
 		txtFilePath.setText("");
-		txtFilePath.setBounds(355, 76, 130, 26);
+		txtFilePath.setBounds(385, 78, 130, 26);
 		add(txtFilePath);
 		txtFilePath.setColumns(10);
 		
 		destinationPath = new JTextField();
-		destinationPath.setBounds(355, 104, 130, 26);
+		destinationPath.setBounds(385, 106, 130, 26);
 		add(destinationPath);
 		destinationPath.setColumns(10);
 		
@@ -150,7 +169,7 @@ public class MainContent extends JPanel {
 
 			
 		});
-		btnSelectFile.setBounds(483, 76, 117, 29);
+		btnSelectFile.setBounds(513, 78, 117, 29);
 		add(btnSelectFile);
 		
 		JButton btnSend = new JButton("Send");
@@ -159,19 +178,142 @@ public class MainContent extends JPanel {
 				sendFile();
 			}
 		});
-		btnSend.setBounds(355, 140, 117, 29);
+		btnSend.setBounds(423, 141, 117, 29);
 		add(btnSend);
 		
 		JLabel lblUpload = new JLabel("Upload");
-		lblUpload.setBounds(263, 34, 61, 16);
+		lblUpload.setBounds(405, 48, 61, 16);
 		add(lblUpload);
 		
 		JLabel lblDownload = new JLabel("Download");
-		lblDownload.setBounds(251, 206, 80, 16);
+		lblDownload.setBounds(405, 174, 80, 16);
 		add(lblDownload);
+		
+		JLabel lblFilePath = new JLabel("File Path :");
+		lblFilePath.setBounds(294, 202, 61, 16);
+		add(lblFilePath);
+		
+		JLabel lblDestPath = new JLabel("Dest. Path :");
+		lblDestPath.setBounds(294, 259, 79, 16);
+		add(lblDestPath);
+		
+		txtOrgFilePath = new JTextField();
+		txtOrgFilePath.setBounds(385, 197, 130, 26);
+		add(txtOrgFilePath);
+		txtOrgFilePath.setColumns(10);
+		
+		txtDestdir = new JTextField();
+		txtDestdir.setBounds(385, 254, 130, 26);
+		add(txtDestdir);
+		txtDestdir.setColumns(10);
+		
+		JButton btnSelectDir = new JButton("Select Dir.");
+		btnSelectDir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				selectDir();
+			}
+		});
+		btnSelectDir.setBounds(513, 254, 117, 29);
+		add(btnSelectDir);
+		
+		JButton btnDownload = new JButton("Download");
+		btnDownload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				downloadFile();			}
+		});
+		btnDownload.setBounds(423, 292, 117, 29);
+		add(btnDownload);
+		
+		JLabel lblFilename = new JLabel("Filename :");
+		lblFilename.setBounds(294, 230, 79, 16);
+		add(lblFilename);
+		
+		txtFileName = new JTextField();
+		txtFileName.setBounds(385, 225, 130, 26);
+		add(txtFileName);
+		txtFileName.setColumns(10);
+		
+		txtrLogs = new JTextArea();
+		txtrLogs.setBounds(30, 202, 220, 160);
+		add(txtrLogs);
+		
+		JLabel lblLogs = new JLabel("Logs",SwingConstants.CENTER);
+		lblLogs.setBounds(103, 174, 61, 16);
+		add(lblLogs);
 		
 		
 	}
+	/**
+	 * Function to download a File over SFTP protocoll using the Jsch Library
+	 * @throws : IOException
+	 */
+	protected void downloadFile() {
+		if((txtFileName.getText() != "") && (hostTxtField.getText() != "") && (passwordField.getText() != "") && (userTxtField.getText() != "") && (destinationPath.getText() != ""))
+		{
+			SFTPUSER = userTxtField.getText();
+			SFTPHOST = hostTxtField.getText();
+			SFTPPORT = Integer.parseInt(portTxtField.getText());
+			SFTPPASS = String.valueOf(passwordField.getPassword());
+			SFTPWORKINGDIR = txtOrgFilePath.getText();
+			fileName = txtFileName.getText();
+			try {
+	            JSch jsch = new JSch();
+	            session = jsch.getSession(SFTPUSER, SFTPHOST, SFTPPORT);
+	            session.setPassword(SFTPPASS);
+	            java.util.Properties config = new java.util.Properties();
+	            config.put("StrictHostKeyChecking", "no");
+	            session.setConfig(config);
+	            session.connect();
+	            txtrLogs.append("Session Opened\nConnecting ...\n");
+	            channel = session.openChannel("sftp");
+	            channel.connect();
+	            channelSftp = (ChannelSftp) channel;
+	            channelSftp.cd(SFTPWORKINGDIR);
+	            byte[] buffer = new byte[1024];
+	            BufferedInputStream bis = new BufferedInputStream(channelSftp.get(fileName));
+	            File newFile = new File(txtDestdir.getText()+fileName);
+	            txtrLogs.append("InputStream Opened\nFile :"+txtDestdir.getText()+"/"+fileName);
+	            OutputStream os = new FileOutputStream(newFile);
+	            BufferedOutputStream bos = new BufferedOutputStream(os);
+	            int readCount;
+	            while ((readCount = bis.read(buffer)) > 0) {
+	                System.out.println("Writing: ");
+	                txtrLogs.append("Writing: ");
+	                bos.write(buffer, 0, readCount);
+	            }
+	            bis.close();
+	            bos.close();
+	            System.out.println("File transfered");
+	            txtrLogs.append("\nFile transfered");
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	            System.out.println(ex.getMessage());
+	        }
+		}
+		
+	}
+	protected void selectDir() {
+		
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Open Resource File");
+		fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int result = fileChooser.showOpenDialog(frameInstance);
+        if (result == JFileChooser.APPROVE_OPTION) 
+            {
+            	File chosenDir = fileChooser.getSelectedFile();
+                txtDestdir.setText(chosenDir.getAbsolutePath());
+                System.out.println("Directory = "+chosenDir.getAbsolutePath());
+                txtrLogs.append("\nDirectory = "+chosenDir.getAbsolutePath());
+            }else 
+            {
+            	System.out.println("no Directory selected");
+            	txtrLogs.append("\nNo Directory selected");
+            }
+	}
+	/**
+	 * Function to send(Upload) a File over SFTP protocoll using the Jsch Library
+	 * @throws : IOException
+	 */
 	protected void sendFile() {
 		
 		if((hostTxtField.getText() != "") && (passwordField.getText() != "") && (userTxtField.getText() != "") && (destinationPath.getText() != ""))
@@ -189,6 +331,7 @@ public class MainContent extends JPanel {
 	            config.put("StrictHostKeyChecking", "no");
 	            session.setConfig(config);
 	            session.connect();
+	            txtrLogs.append("Session Opened\nConnecting ...\n");
 	            channel = session.openChannel("sftp");
 	            channel.connect();
 	            channelSftp = (ChannelSftp) channel;
@@ -197,6 +340,7 @@ public class MainContent extends JPanel {
 	            channelSftp.put(fis, selectedFile.getName());
 	            fis.close();
 	            System.out.println("File transfered");
+	            txtrLogs.append("File transfered\nFile :"+selectedFile.getAbsolutePath()+selectedFile.getName());
 	        } catch (Exception ex) {
 	            ex.printStackTrace();
 	            System.out.println(ex.getMessage());
@@ -204,7 +348,11 @@ public class MainContent extends JPanel {
 		}
 		
 	}
-	public void selectFile() {
+	/**
+	 * Function to select the File to be transfered, using the JFileChooser
+	 *
+	 */
+	protected void selectFile() {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setDialogTitle("Open Resource File");
 		fileChooser.showOpenDialog(frameInstance);
@@ -214,13 +362,14 @@ public class MainContent extends JPanel {
 			filePath = selectedFile.getAbsolutePath();
 			txtFilePath.setText(filePath);
 			System.out.println("File selected");
+			txtrLogs.append("\nFile selected");
 		}
 		else
 		{
 			System.out.println("No File selected");
+			txtrLogs.append("\nNo File selected");
 		}
 		
 		
 	}
-	
 }
